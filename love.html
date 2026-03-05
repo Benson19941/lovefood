@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❤️ 戀愛續約合約書</title>
+    <style>
+        /* 浮水印背景 */
+        .background-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            
+            background-image: url("img/2.jfif"); /* 放你們照片 */
+            background-size: cover;
+            background-position: center;
+            
+            opacity: 0.5; /* 浮水印透明度 */
+            filter: blur(2px); /* 微模糊比較像浮水印 */
+            
+            z-index: -1;
+        }
+        :root {
+
+            --secondary-pink: #ffc3a0;
+            --deep-pink: #e65050;
+            --text-color: #5d5d5d;
+        }
+            
+        body {
+            background: linear-gradient(135deg, var(--primary-pink) 0%, var(--secondary-pink) 100%);
+            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        .contract-paper {
+            background: rgba(255,255,255,0.05); /* 半透明白 */
+            backdrop-filter: blur(6px); /* 玻璃模糊效果 */
+            max-width: 650px;
+            width: 100%;
+            padding: 100px;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            position: relative;
+            border: 1px solid #eee;
+        }
+        .contract-paper::before {
+            content: "";
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 2px solid #fce4ec;
+            pointer-events: none;
+        }
+
+        /* 交往計時器樣式 */
+        .love-timer {
+            text-align: center;
+            background: #fff0f3;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px dashed var(--deep-pink);
+        }
+        .timer-days {
+            font-size: 1.5em;
+            color: var(--deep-pink);
+            font-weight: bold;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--deep-pink);
+            font-size: 2.2em;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--deep-pink);
+            display: inline-block;
+            width: 100%;
+            padding-bottom: 10px;
+        }
+
+        .party-info {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            color: var(--deep-pink);
+            border-left: 5px solid var(--deep-pink);
+            padding-left: 10px;
+            margin-bottom: 15px;
+        }
+
+        .terms {
+            list-style: none;
+            padding: 0;
+        }
+
+        .terms li {
+            margin-bottom: 12px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .terms li::before {
+            content: "♥";
+            position: absolute;
+            left: 0;
+            color: #fa7777
+  
+        }
+
+        .signature-area {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .sig-box {
+            width: 45%;
+            text-align: center;
+        }
+
+        .sig-line {
+            border-bottom: 1px solid #333;
+            height: 50px;
+            margin-bottom: 10px;
+            font-family: 'Dancing Script', cursive; /* 手寫草書 */
+            font-weight: 1000; /* 粗體 */
+            font-size: 3.6em; 
+            text-align: center;
+            line-height: 50px;
+
+        }
+
+        .date-section {
+            text-align: right;
+            margin-top: 30px;
+            font-style: italic;
+        }
+
+        .action-area {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .btn-agree {
+            background-color: var(--deep-pink);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: bold;
+        }
+
+        .btn-agree:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(214, 51, 132, 0.4);
+        }
+
+        #success-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 100;
+            box-shadow: 0 0 50px rgba(0,0,0,0.2);
+            border: 3px solid var(--deep-pink);
+        }
+
+        .heart-animation {
+            color: #e31b23;
+            font-size: 50px;
+            animation: beat .25s infinite alternate;
+        }
+
+        @keyframes beat {
+            to { transform: scale(1.2); }
+        }
+
+        @media print {
+            .btn-agree, .action-area { display: none; }
+            body { background: white; padding: 0; }
+            .contract-paper { box-shadow: none; border: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="background-wrapper"></div>
+
+<div class="contract-paper">
+
+    <h1>戀愛續約合約書</h1>
+
+    <div class="party-info">
+        <span>甲方（男友）：<span style="color:var(--deep-pink)">小胡同學</span></span>
+        <span>乙方（女友）：<span style="color:var(--deep-pink)">小林寶寶</span></span>
+    </div>
+
+    <div class="section">
+        <h3>一、續約期間</h3>
+        <p>自本合約簽署之日起，雙方同意續約期間為期 <strong style="color:var(--deep-pink)">半年 (180天)</strong>。屆滿後經雙方協商，得無限期自動續約。</p>
+    </div>
+
+    <div class="section">
+<div class="section">
+    <h3>二、共同守則</h3>
+    <ul class="terms">
+        <li>每月至少安排一次正式約會。</li>
+        <li>不可以冷戰超過24小時。</li>
+        <li>重要節日（生日、紀念日）要一起慶祝。</li>
+        <li>發生難過或開心的事都要第一時間跟對方說。</li>
+        <li>遇到問題要溝通，不可以逃避。</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h3>三、男方守則</h3>
+    <ul class="terms">
+        <li>主動規劃約會行程。</li>
+        <li>小胡同學要減肥。</li>
+        <li>寶寶生氣地時候要跟她吵架不能害怕妳生氣就不說話。</li>
+        <li>要記得寶寶喜歡吃PH馬卡龍。</li>
+        <li>要陪寶寶吃海底撈。</li>
+    </ul>
+</div>
+
+<div class="section">
+    <h3>四、女方守則</h3>
+    <ul class="terms">
+        <li>有不開心要直接說，不可以生氣賭氣不說。</li>
+        <li>不可以怕對方擔心把事情處完後再說，有問題要趕緊。</li>
+        <li>要鼓勵小胡同學減肥。</li>
+        <li>要多多點撒嬌。</li>
+        <li>多跟小胡同學抱抱親親。</li>
+    </ul>
+</div>
+    </div>
+
+    <div class="section">
+        <h3>三、違約責任</h3>
+        <p>若有違反上述條款者，男方需要帶女方吃甜點，女方需要撒嬌到男方原諒。</p>
+    </div>
+
+    <div class="signature-area">
+        <div class="sig-box">
+            <p>甲方小胡同學</p>
+            <div class="sig-line">胡中奕</div>
+        </div>
+        <div class="sig-box">
+            <p>乙方小林寶寶</p>
+            <div class="sig-line">林芃彣</div>
+        </div>
+    </div>
+
+    <div class="date-section">
+        今日日期：<span id="current-date">115/3/5</span>
+    </div>
+
+    <div class="action-area">
+
+    </div>
+</div>
+
+<div id="success-message">
+    <div class="heart-animation">❤️</div>
+    <h2 style="color: var(--deep-pink);">續約成功！</h2>
+    <p style="font-size: 1.2em; font-weight: bold;">合作愉快，未來的半年也請多多指教！</p>
+    <button onclick="closeMsg()" style="margin-top:20px; border:none; background:#eee; padding:10px 20px; border-radius:5px; cursor:pointer;">返回</button>
+</div>
+
+
+
+</body>
+</html>
