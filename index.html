@@ -12,6 +12,10 @@
             --glass: rgba(255, 255, 255, 0.6);
         }
 
+        html {
+            scroll-behavior: smooth; /* 平滑滾動 */
+        }
+
         body, html {
             margin: 0;
             padding: 0;
@@ -28,13 +32,13 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background-image: url('img/1.jpg'); /* 您的本地背景 */
+            background-image: url('img/1.jpg'); /* 背景圖片 */
             background-size: cover;
             background-position: center;
-            opacity: 0.5; /* 稍微調低一點讓背景更有質感 */
+            opacity: 0.5;
         }
 
-        /* 版面改為 Flex 配置以解決右側空白 */
+        /* 版面改為 Flex 配置 */
         .main-layout {
             max-width: 1200px;
             margin: 0 auto;
@@ -76,7 +80,7 @@
             letter-spacing: 2px;
         }
 
-        /* 美食卡片優化 */
+        /* 美食卡片 */
         .food-card {
             background: var(--overlay-white);
             backdrop-filter: blur(8px);
@@ -86,7 +90,6 @@
             margin-bottom: 40px;
         }
 
-        /* 處理多張圖片的展示 */
         .image-gallery {
             display: flex;
             height: 250px;
@@ -98,11 +101,12 @@
             width: 33.33%;
             height: 100%;
             object-fit: cover;
-            transition: width 0.3s;
+            transition: transform 0.3s;
         }
 
         .image-gallery img:hover {
-            width: 50%; /* 滑過時放大 */
+            transform: scale(1.1);
+            z-index: 2;
         }
 
         .food-content {
@@ -119,41 +123,27 @@
             font-size: 1rem;
             color: #555;
             margin-bottom: 20px;
-            border-left: 2px solid #ddd;
+            border-left: 3px solid var(--accent-color);
             padding-left: 15px;
+            line-height: 1.6;
         }
 
-        /* 音樂播放器樣式 */
-        .music-player {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.3);
-            text-align: center;
+        /* 快速導覽樣式 */
+        .sidebar a {
+            color: var(--accent-color);
+            text-decoration: underline;
         }
-
-        .music-info h4 { margin: 0; letter-spacing: 1px; }
-        .music-info p { font-size: 0.8rem; opacity: 0.7; margin: 5px 0 20px 0; }
-
-        .control-btn {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: transform 0.2s;
-        }
-
-        .control-btn:hover { transform: scale(1.05); }
 
         /* RWD */
         @media (max-width: 900px) {
             .main-layout { flex-direction: column; }
-            .sidebar { position: static; order: -1; } /* 音樂移到上方 */
+            .sidebar { position: static; order: -1; }
             .image-gallery { height: 180px; }
+        }
+
+        @media (max-width: 600px) {
+            .main-layout { padding: 20px 10px; gap: 20px; }
+            .food-card { margin-bottom: 30px; }
         }
     </style>
 </head>
@@ -170,7 +160,7 @@
             <section class="category-section">
                 <h2 style="text-align:center; color: var(--accent-color); margin-bottom:40px;">主食</h2>
                 
-                <div class="region-group">
+                <div class="region-group" id="north">
                     <div class="region-name">北部</div>
                     
                     <article class="food-card">
@@ -188,7 +178,16 @@
                             <a href="https://www.chu-yu.com.tw/" class="food-link" target="_blank">查看詳情</a>
                         </div>
                     </article>
-                    
+                </div>
+
+                <div class="region-group" id="central">
+                    <div class="region-name">中部</div>
+                    <!-- 可加入中部美食卡片 -->
+                </div>
+
+                <div class="region-group" id="south">
+                    <div class="region-name">南部</div>
+                    <!-- 可加入南部美食卡片 -->
                 </div>
             </section>
 
@@ -206,50 +205,18 @@
                 </div>
 
             </section>
-
-            
-
-
         </div>
 
         <aside class="sidebar">
-            <div class="music-player">
-                <div class="music-info">
-                    <h4>MUSIC</h4>
-                    <p>正在播放：JVKE - her (official lyric video)</p>
-                </div>
-                
-                <button class="control-btn" onclick="toggleMusic()" id="playBtn">播放音樂</button>
-                
-                <audio id="bgMusic" loop>
-                    <source src="music/JVKE - her (official lyric video) - JVKE (youtube).m4a" type="audio/mpeg">
-                </audio>
-            </div>
-
             <div style="margin-top: 30px; padding: 20px; font-size: 0.85rem; color: #666;">
                 <p>📍 <b>快速導覽</b></p>
-                <p>北部</p>
-                <p>中部</p>
-                <p>南部</p>
-                <p>📄 <a href="love.html" style="color: var(--accent-color); text-decoration: underline;">續約合約書</a></p>
-
+                <p><a href="#north">北部</a></p>
+                <p><a href="#central">中部</a></p>
+                <p><a href="#south">南部</a></p>
+                <p>📄 <a href="love.html">續約合約書</a></p>
             </div>
         </aside>
     </div>
-
-    <script>
-        function toggleMusic() {
-            const music = document.getElementById('bgMusic');
-            const btn = document.getElementById('playBtn');
-            if (music.paused) {
-                music.play();
-                btn.innerText = "暫停播放";
-            } else {
-                music.pause();
-                btn.innerText = "播放音樂";
-            }
-        }
-    </script>
 
 </body>
 </html>
