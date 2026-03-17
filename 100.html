@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第一個100天</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Noto+Sans+TC&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Noto Sans TC', sans-serif;
+    background: linear-gradient(135deg, #ffe6eb, #ffd6e0);
+}
+
+/* 密碼頁面 */
+#password-page {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    flex-direction:column;
+    text-align:center;
+}
+
+#password-page input {
+    padding:10px;
+    font-size:16px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    margin-bottom:10px;
+}
+
+#password-page button {
+    padding:10px 20px;
+    font-size:16px;
+    border-radius:10px;
+    border:none;
+    background:#ff4d88;
+    color:white;
+    cursor:pointer;
+}
+
+/* 原網頁內容 */
+#main-content {
+    display:none; /* 預設隱藏，輸入正確密碼後顯示 */
+}
+
+h1 {
+    text-align: center;
+    font-family: 'Pacifico', cursive;
+    color: #ff4d88;
+    padding: 20px 0;
+}
+
+/* 以下為之前的 gallery / modal CSS 可直接貼入 */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    padding: 20px;
+}
+
+@media(max-width:768px){
+    .gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 10px;
+    }
+}
+
+.card {
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.card:hover {
+    transform:scale(1.05);
+}
+
+.card img {
+    width: 100%;
+    height: 200px; 
+    object-fit: cover;
+}
+
+.info {
+    text-align:center;
+    padding:10px;
+}
+
+.modal {
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.5); 
+    backdrop-filter: blur(4px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.modal.active {
+    display:flex;
+}
+
+.modal-content {
+    background: rgba(255,255,255,0.95); 
+    border-radius: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    animation: pop 0.4s;
+    box-sizing: border-box;
+}
+
+@keyframes pop {
+    0%{transform:scale(0.5);}
+    70%{transform:scale(1.1);}
+    100%{transform:scale(1);}
+}
+
+.modal img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius:15px;
+}
+
+.memory {
+    margin-top:10px;
+    padding:10px;
+    background:#fff0f5;
+    border-radius:10px;
+    text-align:left;
+}
+
+.close {
+    margin-top:10px;
+    padding:8px 15px;
+    border:none;
+    background:#ff4d88;
+    color:white;
+    border-radius:10px;
+    cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<!-- 密碼頁面 -->
+<div id="password-page">
+    <h2>請輸入密碼以查看內容</h2>
+    <input type="password" id="password-input" placeholder="輸入密碼">
+    <button onclick="checkPassword()">送出</button>
+    <p id="password-msg" style="color:red;"></p>
+</div>
+
+<!-- 原本網頁內容 -->
+<div id="main-content">
+
+<h1>小林寶寶跟小胡同學的第一個100天 </h1>
+
+<div class="gallery" id="gallery"></div>
+
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <img id="modalImg">
+        <p id="modalText"></p>
+        <div class="memory" id="memory"></div>
+        <button class="close" onclick="closeModal()">關閉</button>
+    </div>
+</div>
+
+</div>
+
+<script>
+// 密碼檢查
+function checkPassword(){
+    const input = document.getElementById("password-input").value;
+    if(input === "1209"){
+        document.getElementById("password-page").style.display = "none";
+        document.getElementById("main-content").style.display = "block";
+    } else {
+        document.getElementById("password-msg").innerText = "密碼錯誤，請重新輸入";
+    }
+}
+
+const gallery = document.getElementById("gallery");
+const modal = document.getElementById("modal");
+const modalImg = document.getElementById("modalImg");
+const modalText = document.getElementById("modalText");
+const memory = document.getElementById("memory");
+
+// 你可以自訂日期
+const dates = [
+"2025/12/09","2025/12/12","2025/12/14","2025/12/14",
+"2025/12/16","2025/12/17","2025/12/18","2025/12/28",
+"2026/1/1","2026/1/6","2026/1/12","2026/1/12",
+"2026/1/25","2026/1/26","2026/2/4","2026/2/4",
+"2026/2/14","2026/2/16","2026/2/16","2026/2/16",
+"2026/2/21","2026/2/26","2026/2/27","2026/2/27"
+];
+
+// 標題
+const titles = [
+"D1","D3","D7","D7",
+"D8","D8","D9","D19",
+"D23","D28","D34","D34",
+"D47","D48","D57","D67",
+"D68","D70","D70","D70",
+"D75","D80","D81","D81"
+];
+
+// 回憶內容
+const memories = [
+"那天見面其實我很緊張，我第一次這樣陪一個女生去上她的課",
+"妳知道我喜歡這種調皮的可愛，那天在哈哈鏡前面我笑得好開心",
+"跟寶寶去裕隆城，寶寶好頑皮好可愛",
+"收到寶寶的卡片還有巧克力真的好開心",
+"在路燈下拍照那天真的好浪漫",
+"那天寶寶靠在我肩膀上，真的好幸福",
+"簡單的散步卻很幸福",
+"寶寶對我比❤️耶，好開心好開心拿來當桌布爽了好久",
+"跨年耶!!!!!",
+"寶寶飛撲",
+"寶寶帶我來吃初魚，那天的寶寶真的好漂亮",
+"第一次的情侶寫真",
+"吃牛肉麵開始改變自己的造型",
+"更新桌布超級可愛",
+"寶寶提前拿到韓國要買的包包，看寶寶開心的樣子我也好開心",
+"寶寶想要，寶寶得到",
+"寶寶想要，寶寶得到",
+"寶寶說好吃，但上次吃不過癮",
+"甜甜蜜蜜的兩人",
+"難得我們都好看的照片",
+"寶寶很累在我床上的樣子好可愛",
+"無奈的寶寶一起敷面膜",
+"搞怪的我，和可愛的寶寶",
+"我們還會有更多的100天",
+];
+
+// 建立卡片
+for(let i=0;i<24;i++){
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+        <img src="100img/${i+1}.jfif">
+        <div class="info">
+            <div>${dates[i]}</div>
+            <div>${titles[i]}</div>
+        </div>
+    `;
+
+    card.onclick = () => openModal(i);
+    gallery.appendChild(card);
+}
+
+// 開啟 Modal
+function openModal(i){
+    modal.classList.add("active");
+    modalImg.src = `100img/${i+1}.jfif`;
+    modalText.innerText = titles[i];
+    memory.innerText = memories[i];
+}
+
+// 關閉 Modal
+function closeModal(){
+    modal.classList.remove("active");
+}
+</script>
+
+</body>
+</html>
